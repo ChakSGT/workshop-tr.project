@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="delete_form_view">
+            <field name="name">delete.form</field>
+            <field name="model">delete.wizard</field>
+            <field name="arch" type="xml">
+                <form string="delete Form">
+                    <sheet>
+                        <group>
+                            <field name="customer_ids"></field>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="confirm_delete"
+                            string="Confirm"
+                            type="object"
+                            class="oe_highlight"/>
+                        or
+                        <button special="cancel"
+                            string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="delete_list_action"
+                name="Delete Data"
+                res_model="delete.wizard"
+                view_mode="form"
+                target="new"/>
+
+        <record id="change_date_form" model="ir.ui.view" >
+            <field name="name">Change Date Form</field>
+            <field name="model">change.date</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Change Visit Date">
+                    <!--<label string="Are you sure you want to cancel this document?" colspan="4"/>-->
+                    <group>
+                        <field name="date_visit" />
+                    </group>
+                    <footer>
+                        <button name="confirm_change_date"
+                            string="Confirm"
+                            type="object"
+                            class="oe_highlight"/>
+                        or
+                        <button special="cancel"
+                            string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_change_date"
+                name="Change Visit Date"
+                res_model="change.date"
+                view_mode="form"
+                target="new"/>
+
+        <record id="change_state_form" model="ir.ui.view" >
+            <field name="name">Change State Form</field>
+            <field name="model">change.state</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Change State">
+                    <!--<label string="Are you sure you want to cancel this document?" colspan="4"/>-->
+                    <group>
+                        <field name="customer_ids" />
+                    </group>
+                    <footer>
+                        <button name="confirm_change_state"
+                            string="Confirm"
+                            type="object"
+                            class="oe_highlight"/>
+                        or
+                        <button special="cancel"
+                            string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="change_state_list_action"
+                name="Change State"
+                res_model="change.state"
+                view_mode="form"
+                target="new"/>
+
+    </data>
+</odoo>

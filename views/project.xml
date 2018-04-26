@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="project_form_view">
+            <field name="name">project.form</field>
+            <field name="model">tr.project</field>
+            <field name="arch" type="xml">
+                <form string="project Form">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="budget"/>
+                            <field name="balance"/>
+                            <field name="customer_ids"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- override the automatically generated list view for projects -->
+        <record model="ir.ui.view" id="project_tree_view">
+            <field name="name">project.tree</field>
+            <field name="model">tr.project</field>
+            <field name="arch" type="xml">
+                <tree string="project Tree">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="budget"/>
+                    <field name="balance"/>
+                </tree>
+            </field>
+        </record>
+        <!-- window action -->
+        <!--
+            The following tag is an action definition for a "window action",
+            that is an action opening a view or a set of views
+        -->
+        <record model="ir.actions.act_window" id="project_list_action">
+            <field name="name">projects</field>
+            <field name="res_model">tr.project</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first project
+                </p>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="project_search_view">
+            <field name="name">project.search</field>
+            <field name="model">tr.project</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="budget"/>
+                    <field name="balance"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- top level menu: no parent -->
+        <menuitem id="main_take_menu"
+                  name="Take Customer"/>
+        <!-- A first level in the left side menu is needed
+             before using action= attribute -->
+        <menuitem id="take_menu"
+                  name="Take Customer"
+                  parent="main_take_menu"/>
+        <!-- the following menuitem should appear *after*
+             its parent openacademy_menu and *after* its
+             action project_list_action -->
+        <menuitem id="projects_menu"
+                  name="projects"
+                  parent="take_menu"
+                  action="project_list_action"
+                  sequence="1"
+        />
+
+        <menuitem id="delete_menu"
+                  name="Delete"
+                  parent="take_menu"
+                  action="delete_list_action"
+                  sequence="3"/>
+
+        <menuitem id="change_state_menu"
+                  name="Change State"
+                  parent="take_menu"
+                  action="change_state_list_action"
+                  sequence="4"/>
+        <!-- Full id location:
+             action="openacademy.project_list_action"
+             It is not required when it is the same module -->
+        <!-- take_customer form view -->
+        <record model="ir.ui.view" id="take_customer_form_view">
+            <field name="name">take_customer.form</field>
+            <field name="model">tr.take.customer</field>
+            <field name="arch" type="xml">
+                <form string="take_customer Form">
+                    <header>
+                        <button name="action_request"
+                                type="object"
+                                string="Request for Approve"
+                                states="draft"/>
+
+                        <button name="action_approve"
+                                type="object"
+                                string="Approve"
+                                states="wait"/>
+
+                        <button name="action_reject"
+                                type="object"
+                                string="Reject"
+                                states="wait"
+                                class="oe_highlight"/>
+
+                        <button string="Change Date"
+                                name="%(action_change_date)d"
+                                states="approve"
+                                type="action"/>
+
+                        <field  name="state"
+                                widget="statusbar"/>
+                    </header>
+
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="date"
+                                       attrs="{'readonly': [('state','in',('approve','reject'))]}"/>
+                                <field name="user"
+                                       attrs="{'readonly': [('state','in',('approve','reject'))]}"/>
+                            </group>
+                            <group>
+
+                                <field name="project_ids"
+                                       attrs="{'readonly': [('state','in',('approve','reject'))]}"/>
+                                <field name="balance"
+                                       attrs="{'readonly': [('state','in',('approve','reject'))]}"
+                                />
+                                <field name="money"
+                                       attrs="{'readonly': [('state','in',('approve','reject'))]}"/>
+                            </group>
+                        </group>
+                        <label for="sale_ids"/>
+                        <field name="sale_ids"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- session tree/list view -->
+        <record model="ir.ui.view" id="take_customer_tree_view">
+            <field name="name">take_customer.tree</field>
+            <field name="model">tr.take.customer</field>
+            <field name="arch" type="xml">
+                <tree string="take_customer Tree">
+                    <field name="date"/>
+                    <field name="user"/>
+                    <field name="project_ids"/>
+                    <field name="balance"/>
+                    <field name="money"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="take_customer_list_action">
+            <field name="name">take_customer</field>
+            <field name="res_model">tr.take.customer</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="take_customer_menu"
+                  name="Take Customer"
+                  parent="take_menu"
+                  action="take_customer_list_action"
+                  sequence="2"/>
+    </data>
+</odoo>

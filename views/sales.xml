@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <odoo>
+    <data>
+        <!-- Add instructor field to existing view -->
+        <record model="ir.ui.view" id="sale_inherit_form_view">
+            <field name="name">sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <field name="payment_term_id" position="after">
+                    <field name="tr_project_ids"/>
+                </field>
+                <notebook  position="inside">
+                    <page string="Take Customer">
+                        <field name="tr_take_ids" context="{'default_user': partner_id,'default_project_ids': tr_project_ids,'default_date': date_order}"/>
+                    </page>
+                </notebook>
+            </field>
+
+        </record>
+    </data>
+</odoo>
